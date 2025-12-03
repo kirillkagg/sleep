@@ -25,8 +25,8 @@
     background: var(--bg);
     min-height: 100vh;
     display: flex;
-    justify-content: center;   /* center horizontally */
-    align-items: center;       /* center vertically */
+    justify-content: center;
+    align-items: center;
     padding: 20px;
   }
 
@@ -36,8 +36,8 @@
   }
 
   h1 {
-    font-size: 28px;
     text-align: center;
+    font-size: 28px;
     margin-bottom: 6px;
     font-weight: 600;
   }
@@ -58,19 +58,17 @@
 
   label {
     display: block;
-    font-size: 14px;
     margin-bottom: 6px;
-    color: #333;
+    font-size: 14px;
   }
 
   input {
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px;
+    font-size: 18px;
     border: 1px solid var(--border);
     border-radius: 8px;
     margin-bottom: 14px;
-    font-size: 16px;
-    background: white;
   }
 
   input:focus {
@@ -81,34 +79,28 @@
   button {
     width: 100%;
     padding: 12px;
+    font-size: 16px;
     background: var(--accent);
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 10px;
-    font-size: 16px;
     font-weight: 600;
     margin-top: 8px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #1e40af;
   }
 
   .result-box {
     margin-top: 16px;
     padding: 16px;
-    background: #ffffff;
-    border-radius: 12px;
     border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
     display: none;
   }
 
   .row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 15px;
+    margin-bottom: 8px;
   }
 
   .status {
@@ -118,21 +110,8 @@
     font-weight: 600;
   }
 
-  .good {
-    color: #16a34a;
-  }
-
-  .bad {
-    color: #dc2626;
-  }
-
-  /* Small screens */
-  @media (max-width: 380px) {
-    h1 { font-size: 22px; }
-    .sub { font-size: 13px; }
-    input { font-size: 15px; }
-    button { font-size: 15px; }
-  }
+  .good { color: #16a34a; }
+  .bad { color: #dc2626; }
 </style>
 </head>
 
@@ -141,64 +120,46 @@
 <div class="container">
 
   <h1>Sleep Score</h1>
-  <p class="sub">Calculate sleep duration + quality score</p>
+  <p class="sub">Duration + Quality</p>
 
   <div class="card">
 
     <label>Hours slept</label>
-    <input 
-      type="number"
+    <input
       id="hours"
-      min="0"
-      max="24"
-      step="0.5"
-      inputmode="decimal"
-      pattern="[0-9.]*"
+      type="tel"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      enterkeyhint="next"
       value="7"
     >
 
     <label>Minutes</label>
-    <input 
-      type="number"
+    <input
       id="minutes"
-      min="0"
-      max="59"
-      step="1"
+      type="tel"
       inputmode="numeric"
       pattern="[0-9]*"
+      enterkeyhint="next"
       value="0"
     >
 
     <label>Sleep quality (0–100)</label>
-    <input 
-      type="number"
+    <input
       id="quality"
-      min="0"
-      max="100"
-      step="1"
+      type="tel"
       inputmode="numeric"
       pattern="[0-9]*"
+      enterkeyhint="done"
       value="80"
     >
 
     <button onclick="calculate()">Calculate</button>
 
     <div id="result" class="result-box">
-      <div class="row">
-        <span>Duration score</span>
-        <span id="durationScore">–</span>
-      </div>
-
-      <div class="row">
-        <span>Quality score</span>
-        <span id="qualityScore">–</span>
-      </div>
-
-      <div class="row">
-        <span style="font-weight:600;">Final score</span>
-        <span id="finalScore" style="font-weight:600;">–</span>
-      </div>
-
+      <div class="row"><span>Duration score</span><span id="durationScore">–</span></div>
+      <div class="row"><span>Quality score</span><span id="qualityScore">–</span></div>
+      <div class="row"><strong>Final score</strong><strong id="finalScore">–</strong></div>
       <div id="statusText" class="status"></div>
     </div>
 
@@ -226,8 +187,7 @@
   }
 
   function qualityPoints(q) {
-    if (q < 0) q = 0;
-    if (q > 100) q = 100;
+    q = Math.max(0, Math.min(100, q));
     return q;
   }
 
